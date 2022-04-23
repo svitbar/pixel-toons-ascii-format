@@ -3,7 +3,7 @@ Class that represents color in RGBA format.
 Parameters r, g, b range from 0 to 255.
 Parameter alpha ranges from 0 to 1.
  */
-export class Color {
+class Color {
   constructor(r, g, b, alpha = 1) {
     this.r = r;
     this.g = g;
@@ -23,5 +23,8 @@ export class Color {
 
   //Converts color to RGBA CSS format. Use when passing color to CSS style parameter
   toString() {
+    return `rgba(${this.r},${this.g},${this.b},${this.alpha})`;
   }
 }
+
+export { Color };
