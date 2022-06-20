@@ -1,5 +1,6 @@
 const canvas = document.getElementById('canvas');
 const fileInput = document.getElementById('get-file');
+const asciiImage = document.getElementById('ascii');
 const context = canvas.getContext('2d');
 
 const toGrayScale = (context, width, height) => {
