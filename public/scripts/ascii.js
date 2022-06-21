@@ -21,6 +21,21 @@ const toGrayScale = (context, width, height) => {
   return rgb;
 };
 
+const charsList = ['@', '#', '&', '%', '?', '*', '+', ';', ':', ',', '.', ' '];
+
+const char = (grayscale) => charsList[Math.floor((charsList.length - 1) * grayscale / 255)];
+
+const createAscii = (grayscale, width) => {
+  const asciiList = [];
+
+  for (let i = 0; i <= grayscale.length - 1; i++) {
+    asciiList.push(char(grayscale[i]));
+    if ((i + 1) % width === 0) asciiList.push('\n');
+  }
+
+  asciiImage.textContent = asciiList;
+};
+
 fileInput.onchange = (event) => {
   const file = event.target.files[0];
   const reader = new FileReader();
@@ -33,7 +48,8 @@ fileInput.onchange = (event) => {
       canvas.height = image.height;
       context.drawImage(image, 0, 0);
 
-      toGrayScale(context, image.width, image.height);
+      const grayscale = toGrayScale(context, image.width, image.height);
+      createAscii(grayscale, image.width);
     };
 
     image.src = e.target.result;
