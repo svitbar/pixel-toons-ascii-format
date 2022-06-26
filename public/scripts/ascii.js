@@ -26,14 +26,15 @@ const charsList = ['@', '#', '&', '%', '?', '*', '+', ';', ':', ',', '.', ' '];
 const char = (grayscale) => charsList[Math.floor((charsList.length - 1) * grayscale / 255)];
 
 const createAscii = (grayscale, width) => {
-  const asciiList = [];
 
-  for (let i = 0; i <= grayscale.length - 1; i++) {
-    asciiList.push(char(grayscale[i]));
-    if ((i + 1) % width === 0) asciiList.push('\n');
-  }
+  const imageChars = grayscale.reduce((ascii, pxValue, index) => {
+    ascii += char(pxValue);
+    if (index % width === 0) ascii += '\n';
 
-  asciiImage.textContent = asciiList;
+    return ascii;
+  }, '');
+
+  asciiImage.textContent = imageChars;
 };
 
 fileInput.onchange = (event) => {
