@@ -1,6 +1,7 @@
 const canvas = document.getElementById('canvas');
 const fileInput = document.getElementById('get-file');
 const asciiImage = document.getElementById('ascii');
+const button = document.getElementById('ready');
 
 const context = canvas.getContext('2d');
 
@@ -64,27 +65,30 @@ const createAscii = (grayscale, width) => {
 
 fileInput.onchange = (event) => {
 
-  const file = event.target.files[0];
-  const reader = new FileReader();
+  button.onclick = (e) => {
+    e.preventDefault();
 
-  reader.onload = (e) => {
-    const image = new Image();
+    const file = event.target.files[0];
 
-    image.onload = () => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const image = new Image();
+      image.onload = () => {
 
-      const [width, height] = resizeImage(image.width, image.height);
+        const [width, height] = resizeImage(image.width, image.height);
 
-      canvas.width = width;
-      canvas.height = height;
+        canvas.width = width;
+        canvas.height = height;
 
-      context.drawImage(image, 0, 0, width, height);
+        context.drawImage(image, 0, 0, width, height);
+        const grayscale = toGrayScale(context, width, height);
 
-      const grayscale = toGrayScale(context, width, height);
-      createAscii(grayscale, width);
+        createAscii(grayscale, width);
+      };
+
+      image.src = e.target.result;
     };
 
-    image.src = e.target.result;
-    };
-    
-  reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
+  };
 };
