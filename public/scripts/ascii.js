@@ -3,6 +3,27 @@ const fileInput = document.getElementById('get-file');
 const asciiImage = document.getElementById('ascii');
 const context = canvas.getContext('2d');
 
+const maxWidth = 60;
+const maxHeight = 60;
+
+const resizeImage = (width, height) => {
+  const ratio = 2;
+
+  const rectifiedWidth = ratio * width;
+
+  if (height > maxHeight) {
+    const changedWidth = Math.floor(rectifiedWidth * maxHeight / height);
+    return [changedWidth, maxHeight];
+  }
+
+  if (width > maxWidth) {
+    const changedHeight = Math.floor(height * maxWidth / rectifiedWidth);
+    return [maxWidth, changedHeight];
+  }
+
+  return [rectifiedWidth, height];
+};
+
 const toGrayScale = (context, width, height) => {
   const imageData = context.getImageData(0, 0, width, height);
   const rgb = [];
@@ -45,12 +66,13 @@ fileInput.onchange = (event) => {
     const image = new Image();
 
     image.onload = () => {
-      canvas.width = image.width;
-      canvas.height = image.height;
-      context.drawImage(image, 0, 0);
+      const [width, height] = resizeImage(image.width, image.height);
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(image, 0, 0, width, height);
 
-      const grayscale = toGrayScale(context, image.width, image.height);
-      createAscii(grayscale, image.width);
+      const grayscale = toGrayScale(context, width, height);
+      createAscii(grayscale, width);
     };
 
     image.src = e.target.result;
