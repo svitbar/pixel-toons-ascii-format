@@ -1,6 +1,7 @@
 const canvas = document.getElementById('canvas');
 const fileInput = document.getElementById('get-file');
 const asciiImage = document.getElementById('ascii');
+
 const context = canvas.getContext('2d');
 
 const maxWidth = 60;
@@ -25,6 +26,7 @@ const resizeImage = (width, height) => {
 };
 
 const toGrayScale = (context, width, height) => {
+
   const imageData = context.getImageData(0, 0, width, height);
   const rgb = [];
 
@@ -39,18 +41,19 @@ const toGrayScale = (context, width, height) => {
     rgb.push(color);
   }
   context.putImageData(imageData, 0, 0);
+
   return rgb;
 };
 
 const charsList = ['@', '#', '&', '%', '?', '*', '+', ';', ':', ',', '.', ' '];
 
-const char = (grayscale) => charsList[Math.floor((charsList.length - 1) * grayscale / 255)];
+const char = (grayscale) => charsList[Math.floor(charsList.length * grayscale / 255)];
 
 const createAscii = (grayscale, width) => {
 
   const imageChars = grayscale.reduce((ascii, pxValue, index) => {
     ascii += char(pxValue);
-    if (index % width === 0) ascii += '\n';
+    if ((index + 1) % width === 0) ascii += '\n';
 
     return ascii;
   }, '');
@@ -59,6 +62,7 @@ const createAscii = (grayscale, width) => {
 };
 
 fileInput.onchange = (event) => {
+
   const file = event.target.files[0];
   const reader = new FileReader();
 
@@ -66,9 +70,12 @@ fileInput.onchange = (event) => {
     const image = new Image();
 
     image.onload = () => {
+
       const [width, height] = resizeImage(image.width, image.height);
+
       canvas.width = width;
       canvas.height = height;
+
       context.drawImage(image, 0, 0, width, height);
 
       const grayscale = toGrayScale(context, width, height);
