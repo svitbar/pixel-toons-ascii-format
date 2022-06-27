@@ -2,11 +2,19 @@ const canvas = document.getElementById('canvas');
 const fileInput = document.getElementById('get-file');
 const asciiImage = document.getElementById('ascii');
 const button = document.getElementById('ready');
+const charColor = document.getElementById('character');
+const background = document.getElementById('back');
+const chooseInput = document.getElementById('choose');
 
 const context = canvas.getContext('2d');
 
-const maxWidth = 60;
-const maxHeight = 60;
+let maxWidth = 0;
+let maxHeight = 0;
+
+chooseInput.onchange = (e) => {
+  maxHeight = e.target.value;
+  maxWidth = e.target.value;
+};
 
 const resizeImage = (width, height) => {
   
@@ -62,6 +70,8 @@ const createAscii = (grayscale, width) => {
 
   asciiImage.textContent = imageChars;
 };
+
+charColor.onchange = (e) => asciiImage.style.color = e.target.value;
 
 fileInput.onchange = (event) => {
 
