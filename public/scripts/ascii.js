@@ -8,8 +8,8 @@ const maxWidth = 60;
 const maxHeight = 60;
 
 const resizeImage = (width, height) => {
+  
   const ratio = 2;
-
   const rectifiedWidth = ratio * width;
 
   if (height > maxHeight) {
@@ -46,8 +46,9 @@ const toGrayScale = (context, width, height) => {
 };
 
 const charsList = ['@', '#', '&', '%', '?', '*', '+', ';', ':', ',', '.', ' '];
+const charsLen = charsList.length;
 
-const char = (grayscale) => charsList[Math.floor(charsList.length * grayscale / 255)];
+const char = (grayscale) => charsList[Math.floor(charsLen * grayscale / 255)];
 
 const createAscii = (grayscale, width) => {
 
