@@ -8,8 +8,8 @@ const chooseInput = document.getElementById('choose');
 
 const context = canvas.getContext('2d');
 
-let maxWidth = 0;
-let maxHeight = 0;
+let maxWidth = 40;
+let maxHeight = 40;
 
 chooseInput.onchange = (e) => {
   maxHeight = e.target.value;
